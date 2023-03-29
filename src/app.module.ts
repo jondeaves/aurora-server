@@ -10,12 +10,8 @@ import { GameModule } from './game/game.module';
 @Module({
   imports: [
     SequelizeModule.forRoot({
-      dialect: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      database: 'aurora',
-      username: 'aurora',
-      password: 'aurora',
+      dialect: 'sqlite',
+      storage: 'data/aurora.sqlite',
       models: [Player],
       autoLoadModels: true,
     }),
