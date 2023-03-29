@@ -64,7 +64,9 @@ export class GameGateway {
     // TODO: Update this to get position from database or a standard spawn point default
     let playerObj: PlayerInfo;
     try {
-      const playerInstance = await this.gameService.findOrCreate(client.handshake.auth.username);
+      const playerInstance = await this.gameService.findOrCreate(
+        client.handshake.auth.username,
+      );
 
       playerObj = {
         playerId: client.id,
@@ -72,7 +74,7 @@ export class GameGateway {
         x: playerInstance.getDataValue('x'),
         y: playerInstance.getDataValue('y'),
         r: playerInstance.getDataValue('r'),
-      }
+      };
     } catch (error) {
       playerObj = {
         playerId: client.id,
@@ -80,7 +82,7 @@ export class GameGateway {
         x: 0,
         y: 0,
         r: 0,
-      }
+      };
     }
 
     this.players[client.id] = playerObj;
@@ -109,8 +111,13 @@ export class GameGateway {
     this.players[client.id].r = data.r;
 
     try {
-      await this.gameService.updatePosition(this.players[client.id].username, data.x, data.y, data.r);
-    } catch(error) {}
+      await this.gameService.updatePosition(
+        this.players[client.id].username,
+        data.x,
+        data.y,
+        data.r,
+      );
+    } catch (error) {}
 
     // emit a message to all players about the player that moved
     client.broadcast.emit('playerMoved', this.players[client.id]);
