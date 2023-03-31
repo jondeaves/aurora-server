@@ -9,6 +9,8 @@ import { CharacterModule } from './character/character.module';
 import { GameModule } from './game/game.module';
 import { UsersModule } from './users/users.module';
 
+import { User } from './users/user.entity';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -18,7 +20,7 @@ import { UsersModule } from './users/users.module';
       database: 'aurora',
       username: 'aurora',
       password: 'aurora',
-      entities: [],
+      entities: [User],
       synchronize: process.env.NODE_ENV === 'production' ? false : true,
     }),
     AuthModule,
