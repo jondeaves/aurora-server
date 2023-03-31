@@ -61,7 +61,6 @@ export class GameGateway {
     });
 
     // create a new player and add it to our players object
-    // TODO: Update this to get position from database or a standard spawn point default
     let playerObj: PlayerInfo;
     try {
       const playerInstance = await this.gameService.findOrCreate(
@@ -70,10 +69,10 @@ export class GameGateway {
 
       playerObj = {
         playerId: client.id,
-        username: playerInstance.getDataValue('username'),
-        x: playerInstance.getDataValue('x'),
-        y: playerInstance.getDataValue('y'),
-        r: playerInstance.getDataValue('r'),
+        username: playerInstance.name,
+        x: playerInstance.x,
+        y: playerInstance.y,
+        r: playerInstance.r,
       };
     } catch (error) {
       playerObj = {
@@ -111,12 +110,8 @@ export class GameGateway {
     this.players[client.id].r = data.r;
 
     try {
-      await this.gameService.updatePosition(
-        this.players[client.id].username,
-        data.x,
-        data.y,
-        data.r,
-      );
+      // TODO: Update this to get ID from auth session
+      await this.gameService.updatePosition(1, data.x, data.y);
     } catch (error) {}
 
     // emit a message to all players about the player that moved
